@@ -43,5 +43,17 @@ class Account extends Model
         return $valid;
     }
 
+    
+    public static function excange(){
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL, ("http://data.fixer.io/api/latest?access_key=9ea702abb102fd3e8635dc263d8dac5d"));
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+        $buffer = curl_exec($curl_handle); 
+        curl_close($curl_handle);
+        $result = json_decode($buffer, 1);
+        $USDrate = $result['rates']['USD'];
+        return $USDrate;
+    }
+
 
 }

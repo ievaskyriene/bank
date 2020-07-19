@@ -1,3 +1,4 @@
+{{-- @use App\Account; --}}
 
 @extends('layouts.app')
 
@@ -11,10 +12,9 @@
         <th>Lesos USD</th>
         <th>Veiksmai</th>
     </div>
-  
+
  
-{{-- // $USD = 0;
-// $USD = $user['lesos'] * CE::excange(); --}}
+    {{-- {{$account->USD}} = {{Account::excange()}} * {{$account->lesos}} --}}
 <tr>
         
 <td>{{$account->name}}</td>
