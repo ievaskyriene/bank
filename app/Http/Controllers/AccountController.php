@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use Validator;
+
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -25,6 +27,7 @@ class AccountController extends Controller
      */
     public function create()
     {
+      
         return view('account.create');
     }
 
@@ -37,6 +40,25 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $account = new Account;
+        $validator = Validator::make($request->all(),
+        [
+            'account_name' => ['required', 'min:3', 'max:64'],
+            'account_surname' => ['required', 'min:3', 'max:64'],
+            'account_holder_ak' => 'unique:accounts,AK'
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
+
+        if(Account::valid_ak($request->account_holder_ak) != true){
+            return redirect()->route('account.create')->with('info_message',  'Iveskite teisinga asmens koda');
+         }
+
+    
+
+      
         $account->name = $request->account_name;
         $account->surname = $request->account_surname;
         $account->AK = $request->account_holder_ak;
@@ -122,6 +144,10 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
+        if($account->lesos > 0){
+            return redirect()->route('account.index')->with('info_message', 'Sąskaitos, kurioje yra pinigų, ištrinti negalima.');
+            
+        }
         $account->delete();
         return redirect()->route('account.index')->with('success_message', 'Sąskaita sėkmingai ištrinta.');
     }
