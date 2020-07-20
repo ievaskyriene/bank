@@ -17,6 +17,10 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = Account::all();
+        $accounts = Account::orderBy('surname')->get();
+
+
+        
         return view('account.index', ['accounts' => $accounts]);
     }
 
@@ -129,9 +133,9 @@ class AccountController extends Controller
         if ($request->account_nuimti <= $account->lesos && $request->account_nuimti > 0 ){
              $account->lesos -= $request->account_nuimti;
              $account->save();
-            return redirect()->route('account.minus', ['account' => $account])>with('success_message', 'Lėšos sėkmingai nuimtos');
+            return redirect()->route('account.minus', ['account' => $account]);
         }else{
-            return redirect()->route('account.add', ['account' => $account])->with('info_message', 'Likutis negali būti mažesnis už nulį');
+            return redirect()->route('account.minus', ['account' => $account])->with('info_message', 'Likutis negali būti mažesnis už nulį');
         }
     }
 

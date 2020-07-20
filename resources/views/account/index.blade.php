@@ -1,4 +1,20 @@
 @extends('layouts.app')
+
+<style>
+    .links > a {
+        color: #636b6f;
+        padding: 0 25px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .1rem;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+    .links{
+        padding: 30px;
+    }
+</style>
+
 <table class = "table">
     <thead class="thead-dark">
     <tr>
@@ -21,17 +37,17 @@
                     <td>
                         <form action="{{route('account.destroy', [$account])}}" method="post"> 
                             @csrf
-                        <button type="submit" name="delete" value="'.$user['IBAN'].'">Trinti</button> 
+                        <button class="btn btn-secondary" type="submit" name="delete" value="'.$user['IBAN'].'">Ištrinti sąskaitą</button> 
                         </form>
                         <a href="{{route('account.add', [$account])}}">
                             @csrf
                            <input type="hidden" name="ID" value="'.$user['ID'].'"readonly>    
-                            <button type="submit" name="inesti">Inesti</button>
+                            <button  class="btn btn-primary" type="submit" name="inesti">Įnešti lėšų</button>
                         </a>
                         <a href="{{route('account.minus', [$account])}}">
                             @csrf
                            <input type="hidden" name="ID" value="'.$user['ID'].'"readonly>    
-                            <button type="submit" name="nuimti">Nuimti</button>
+                            <button  class="btn btn-primary" type="submit" name="nuimti">Nuimti lėšų</button>
                         </a>
                         
                     </td>

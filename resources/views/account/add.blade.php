@@ -1,6 +1,27 @@
-{{-- @use App\Account; --}}
+
 
 @extends('layouts.app')
+<style>
+ .links > a {
+        color: #636b6f;
+        padding: 0 25px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .1rem;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+    .links{
+        padding: 30px;
+    }
+
+</style>
+
+<div class="links">
+    <a href="{{route('account.create')}}">Sukurti naują sąskaitą</a>
+    <br>
+    <a href="{{route('account.index')}}">Peržiūrėti sąskaitų sąrašą</a>
+</div>
 
 <table class="table">
     <thead class="thead-dark">
@@ -14,14 +35,15 @@
     </div>
 
  
-    {{-- {{$account->USD}} = {{Account::excange()}} * {{$account->lesos}} --}}
+{{-- {{$account->USD}} = {{App\Account::excange() * $account->lesos}} --}}
+
 <tr>
         
 <td>{{$account->name}}</td>
 <td>{{$account->surname}}</td>
 <td>{{$account->IBAN}}</td>
 <td>{{$account->lesos}}</td>
-<td>{{$account->USD}}</td>
+<td>{{App\Account::excange() * $account->lesos}}</td>
 <td>
         
         <form action="{{route('account.updateAdd',[$account->id])}}" method="POST">
@@ -29,7 +51,7 @@
         <input type="hidden" name="ID" value="'.$user['ID'].'" readonly>
         <input type="number" step="0.01" name="account_prideti" value="">
         @csrf
-        <button type="submit">Prideti</button>
+        <button  class="btn btn-primary" type="submit">Prideti</button>
     </form>
     
     </td>
@@ -37,3 +59,4 @@
 </thead>
     </div>
 </table>
+
