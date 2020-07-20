@@ -102,6 +102,14 @@
                                 {{session()->get('info_message')}}
                             </div>
                         @endif
+
+                        @if(session()->has('alert_message'))
+                        <div class="alert alert-danger" role="alert">
+                            {{session()->get('alert_message')}}
+                        </div>
+                    @endif
+
+
                     </div>
                 </div>
             </div>

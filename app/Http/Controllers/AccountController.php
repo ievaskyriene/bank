@@ -49,7 +49,13 @@ class AccountController extends Controller
             'account_name' => ['required', 'min:3', 'max:64'],
             'account_surname' => ['required', 'min:3', 'max:64'],
             'account_holder_ak' => 'unique:accounts,AK'
+        ],
+
+        [
+            'account_holder_ak.unique' => 'Toks asmens kodas jau egzistuoja!' 
         ]
+
+
         );
         if ($validator->fails()) {
             $request->flash();
@@ -57,7 +63,7 @@ class AccountController extends Controller
         }
 
         if(Account::valid_ak($request->account_holder_ak) != true){
-            return redirect()->route('account.create')->with('info_message',  'Iveskite teisinga asmens koda');
+            return redirect()->route('account.create')->with('alert_message',  'Iveskite teisinga asmens koda');
          }
 
     
@@ -120,9 +126,9 @@ class AccountController extends Controller
         if ($request->account_prideti > 0){
         $account->lesos += $request->account_prideti;
         $account->save();
-        return redirect()->route('account.add', ['account' => $account]);
+        return redirect()->route('account.add', ['account' => $account])->with('success_message', 'Lešos  įneštos į sąskaitą');
         }else {
-            return redirect()->route('account.add', ['account' => $account])->with('info_message', 'Įveskite sumą, didesnę už nulį.');
+            return redirect()->route('account.add', ['account' => $account])->with('alert_message', 'Įveskite sumą, didesnę už nulį.');
         }
         // $account->USD = 0;
        
@@ -133,9 +139,9 @@ class AccountController extends Controller
         if ($request->account_nuimti <= $account->lesos && $request->account_nuimti > 0 ){
              $account->lesos -= $request->account_nuimti;
              $account->save();
-            return redirect()->route('account.minus', ['account' => $account]);
+            return redirect()->route('account.minus', ['account' => $account])->with('success_message', 'Lešos  nurašytos');
         }else{
-            return redirect()->route('account.minus', ['account' => $account])->with('info_message', 'Likutis negali būti mažesnis už nulį');
+            return redirect()->route('account.minus', ['account' => $account])->with('alert_message', 'Likutis negali būti mažesnis už nulį');
         }
     }
 
@@ -149,7 +155,7 @@ class AccountController extends Controller
     public function destroy(Account $account)
     {
         if($account->lesos > 0){
-            return redirect()->route('account.index')->with('info_message', 'Sąskaitos, kurioje yra pinigų, ištrinti negalima.');
+            return redirect()->route('account.index')->with('alert_message', 'Sąskaitos, kurioje yra pinigų, ištrinti negalima.');
             
         }
         $account->delete();

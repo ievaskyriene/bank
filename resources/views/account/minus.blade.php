@@ -16,6 +16,12 @@
     }
 </style>
 
+<div class="links">
+    <a href="{{route('account.create')}}">Sukurti naują sąskaitą</a>
+    <br>
+    <a href="{{route('account.index')}}">Peržiūrėti sąskaitų sąrašą</a>
+</div>
+
 <table class="table">
     <thead class="thead-dark">
     <tr>

@@ -1,6 +1,28 @@
 @extends('layouts.app')
 
+
+
+<style>
+    .links > a {
+           color: #636b6f;
+           padding: 0 25px;
+           font-size: 13px;
+           font-weight: 600;
+           letter-spacing: .1rem;
+           text-decoration: none;
+           text-transform: uppercase;
+       }
+       .links{
+           padding: 30px;
+       }
+</style>
+
 @section('content')
+<div class="links">
+    <a href="{{route('account.index')}}">Peržiūrėti sąskaitų sąrašą</a>
+</div>
+
+
 <div class="container">
    <div class="row justify-content-center">
        <div class="col-md-8">
